@@ -11,3 +11,8 @@ interface IDish extends IDishForm {
 interface IDishApi {
     [key: string]: IDishForm;
 }
+
+interface IUpdateDish {
+    id: string;
+    dish: IDishForm;
+}

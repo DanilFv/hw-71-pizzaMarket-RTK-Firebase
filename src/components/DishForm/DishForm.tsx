@@ -1,6 +1,20 @@
-import {Box, Grid, TextField} from '@mui/material';
+import {Box, Button, Grid, TextField} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import {EMPTY_VALUES} from '../../Constants.ts';
+import {toast} from 'react-toastify';
+import {useAppDispatch, useAppSelector} from '../../app/hooks.ts';
+import {useNavigate} from 'react-router-dom';
+import {
+    fetchAddDish,
+    fetchEditDish
+} from '../../containers/AdminPage/DishesPage/DishesSlice.ts';
+import SaveIcon from '@mui/icons-material/Save';
+import EditDocumentIcon from '@mui/icons-material/EditDocument';
+import {
+    selectIsAddLoading
+} from '../../containers/AdminPage/DishesPage/DishesSelectors.ts';
+import * as React from 'react';
+import {useEffect} from 'react';
 
 interface Props {
     isEdit?: boolean;
@@ -10,6 +24,9 @@ interface Props {
 
 
 const DishForm: React.FC<Props> = ({isEdit, initialValue, dishId}) => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const isAddLoading = useAppSelector(selectIsAddLoading);
 
     const {register, handleSubmit, reset, watch, formState: {errors}} = useForm<IDishForm>({
         defaultValues: EMPTY_VALUES
@@ -18,8 +35,22 @@ const DishForm: React.FC<Props> = ({isEdit, initialValue, dishId}) => {
     const photoUrl = watch('image');
 
     const onSubmit = (data: IDishForm) => {
-
+        if (isEdit && dishId) {
+            dispatch(fetchEditDish({ id: dishId, dish: data }))
+        } else {
+            dispatch(fetchAddDish(data));
+        }
+        navigate('/admin');
+        toast.success(`Блюдо успешно ${isEdit ? 'изменено' : 'добавлено'}!`);
     }
+
+    useEffect(() => {
+        if (isEdit && initialValue) {
+            reset(initialValue);
+        } else {
+            reset(EMPTY_VALUES);
+        }
+    }, [reset, initialValue, isEdit]);
 
 
     return (
@@ -41,6 +72,7 @@ const DishForm: React.FC<Props> = ({isEdit, initialValue, dishId}) => {
                             })}
                             error={!!errors.title}
                             helperText={errors.title?.message}
+                            disabled={isAddLoading}
                         />
                     </Grid>
 
@@ -60,6 +92,7 @@ const DishForm: React.FC<Props> = ({isEdit, initialValue, dishId}) => {
                             })}
                             error={!!errors.price}
                             helperText={errors.price?.message}
+                            disabled={isAddLoading}
                         />
                     </Grid>
 
@@ -71,6 +104,7 @@ const DishForm: React.FC<Props> = ({isEdit, initialValue, dishId}) => {
                             {...register('image', {
                                 setValueAs: (value: string) => value.trim() ?? ''
                             })}
+                            disabled={isAddLoading}
                         />
 
                          {photoUrl && (
@@ -80,6 +114,18 @@ const DishForm: React.FC<Props> = ({isEdit, initialValue, dishId}) => {
                                 style={{ width: 120, height: 120, objectFit: 'cover', marginTop: 10 }}
                             />
                          )}
+                    </Grid>
+
+                    <Grid size={12}>
+                        <Button
+                            type='submit'
+                            loading={isAddLoading}
+                            loadingPosition="start"
+                            startIcon={isEdit ? <EditDocumentIcon /> : <SaveIcon />}
+                            variant="outlined"
+                        >
+                            {isEdit ? 'Edit Dish' : 'Add Dish'}
+                        </Button>
                     </Grid>
                 </Grid>
             </form>
