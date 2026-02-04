@@ -1,6 +1,6 @@
 import type {RootState} from '../../../app/store.ts';
 
-export const selectDish = (state: RootState) => state.dishes.dishes
+export const selectDishes = (state: RootState) => state.dishes.dishes
 export const selectOneDish = (state: RootState) => state.dishes.oneDish
 
 export const selectLoading = (state: RootState) => state.dishes.loading

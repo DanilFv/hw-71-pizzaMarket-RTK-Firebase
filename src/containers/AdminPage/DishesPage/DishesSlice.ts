@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axiosAPI from '../../../axiosAPI.ts';
+import {toast} from 'react-toastify';
 
 interface DishesSlice {
     dishes: IDish[];
@@ -71,9 +72,31 @@ export const dishSlice = createSlice({
               state.isOneDishLoading = false;
           });
 
+          builder.addCase(fetchDeleteDish.pending, (state) => {
+              state.isDeleteLoading = true;
+          });
+          builder.addCase(fetchDeleteDish.fulfilled, (state) => {
+              state.isDeleteLoading = false;
+          });
+          builder.addCase(fetchDeleteDish.rejected, (state) => {
+              state.isDeleteLoading = false;
+          });
+
+           builder.addCase(fetchOneDish.pending, (state) => {
+              state.isDeleteLoading = true;
+          });
+            builder.addCase(fetchOneDish.fulfilled, (state, action) => {
+              state.isDeleteLoading = false;
+              const payload = action.payload;
+
+              if (payload) state.oneDish = payload;
+          });
+             builder.addCase(fetchOneDish.rejected, (state) => {
+              state.isDeleteLoading = false;
+          });
+
     }
 });
-
 
 export const fetchAllDishes = createAsyncThunk<IDishApi, void>('/allDishes',
     async () => {
@@ -88,7 +111,19 @@ export const fetchAddDish = createAsyncThunk<void, IDishForm>('/addDish',
 
 export const fetchEditDish = createAsyncThunk<void, IUpdateDish>('/editDish',
     async ({id, dish}) => {
-    await axiosAPI.put(`dishes${id}.json`, dish);
+    await axiosAPI.put(`dishes/${id}.json`, dish);
+});
+
+export const fetchDeleteDish = createAsyncThunk<void, string>('/deleteDish',
+    async (id) => {
+    await axiosAPI.delete(`dishes/${id}.json`);
+    toast.success('Блюдо успешно удалено!');
+});
+
+export const fetchOneDish = createAsyncThunk<IDish, string>('/addOneDish',
+    async (id) => {
+    const response = await axiosAPI<IDish>(`dishes/${id}.json`);
+    return response.data;
 });
 
 
