@@ -1,16 +1,18 @@
-import {Box, Button, Typography} from '@mui/material';
-import {NavLink} from 'react-router-dom';
-import {useSelector} from 'react-redux';
 import {selectDishes, selectIsDeleteLoading} from './DishesSelectors.ts';
 import AdminDishCard from '../../../components/AdminDishCard/AdminDishCard.tsx';
 import {useEffect} from 'react';
-import {useAppDispatch} from '../../../app/hooks.ts';
-import {fetchAllDishes, fetchDeleteDish} from './DishesSlice.ts';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks.ts';
+import {
+    fetchAllDishes,
+    fetchDeleteDish
+} from '../../../app/store/DishesSlice.ts';
+import AdminDishButtonContainer
+    from '../../../components/AdminDishButtonContainer/AdminDishButtonContainer.tsx';
 
 
 const DishesPage = () => {
-    const isDeleteLoading = useSelector(selectIsDeleteLoading);
-    const dishes = useSelector(selectDishes);
+    const isDeleteLoading = useAppSelector(selectIsDeleteLoading);
+    const dishes = useAppSelector(selectDishes);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -24,16 +26,7 @@ const DishesPage = () => {
 
     return (
         <>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography component='h5' variant='h5' sx={{ fontWeight: 'bold' }}>
-                    Dishes
-                </Typography>
-
-                <Button type='type' variant='outlined' component={NavLink} to='/admin/dishes/new-dish'>
-                    Add new dish
-                </Button>
-            </Box>
-
+            <AdminDishButtonContainer dishes={dishes} />
             <AdminDishCard dishes={dishes} isLoading={isDeleteLoading} onDelete={onDeleteDish} />
         </>
     );

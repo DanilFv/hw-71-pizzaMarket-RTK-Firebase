@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axiosAPI from '../../../axiosAPI.ts';
+import axiosAPI from '../../axiosAPI.ts';
 import {toast} from 'react-toastify';
 
 interface DishesSlice {
@@ -83,16 +83,16 @@ export const dishSlice = createSlice({
           });
 
            builder.addCase(fetchOneDish.pending, (state) => {
-              state.isDeleteLoading = true;
+              state.isOneDishLoading = true;
           });
             builder.addCase(fetchOneDish.fulfilled, (state, action) => {
-              state.isDeleteLoading = false;
+              state.isOneDishLoading = false;
               const payload = action.payload;
 
               if (payload) state.oneDish = payload;
           });
              builder.addCase(fetchOneDish.rejected, (state) => {
-              state.isDeleteLoading = false;
+              state.isOneDishLoading = false;
           });
 
     }

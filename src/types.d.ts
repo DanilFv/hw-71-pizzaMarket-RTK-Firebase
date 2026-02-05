@@ -16,3 +16,7 @@ interface IUpdateDish {
     id: string;
     dish: IDishForm;
 }
+
+interface ICartDish extends IDish {
+    count: number;
+}
