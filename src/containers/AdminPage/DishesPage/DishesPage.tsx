@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from '../../../app/hooks.ts';
 import {
     fetchAllDishes,
     fetchDeleteDish
-} from '../../../app/store/DishesSlice.ts';
+} from '../../../app/store/Dishes/DishesSlice.ts';
 import AdminDishButtonContainer
     from '../../../components/AdminDishButtonContainer/AdminDishButtonContainer.tsx';
 

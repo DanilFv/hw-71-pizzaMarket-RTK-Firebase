@@ -6,6 +6,7 @@ import * as React from 'react';
 import EditDocumentIcon from '@mui/icons-material/EditDocument';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CartItem from '../../Cart/CartItem/CartItem.tsx';
+import type {ICartDish} from '../../../types';
 
 
 interface Props {
@@ -13,12 +14,14 @@ interface Props {
     onClose: () => void;
     cartDishes: ICartDish[];
     onDelete?: (dish: ICartDish) => void;
+    onOrder: () => void;
+    loading: boolean;
 }
 
 
-const ModalWindow: React.FC<Props> = ({open, cartDishes, onClose, onDelete}) => {
+const ModalWindow: React.FC<Props> = ({open, cartDishes, onClose, onDelete, onOrder, loading}) => {
     const total = cartDishes.reduce((acc, item) => {
-        acc += item.price;
+        acc += item.price * item.count;
         return acc;
     }, 150);
 
@@ -33,7 +36,7 @@ const ModalWindow: React.FC<Props> = ({open, cartDishes, onClose, onDelete}) => 
                 <Box sx={MODAL_STYLES}>
 
                     {cartDishes.map(dish => (
-                        <CartItem dish={dish} onDelete={onDelete} />
+                        <CartItem key={dish.id} dish={dish} onDelete={onDelete} />
                     ))}
 
                     <Box sx={{ mt: 4 }}>
@@ -63,8 +66,9 @@ const ModalWindow: React.FC<Props> = ({open, cartDishes, onClose, onDelete}) => 
                             type='button'
                             startIcon={<DeleteForeverIcon />}
                             variant="outlined"
-                            // loading={isLoading}
-                            // loadingPosition="start"
+                            onClick={onOrder}
+                            loading={loading}
+                            loadingPosition={'center'}
                         >
                             Order
                         </Button>

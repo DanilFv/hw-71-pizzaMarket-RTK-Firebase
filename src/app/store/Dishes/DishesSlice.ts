@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axiosAPI from '../../axiosAPI.ts';
+import axiosAPI from '../../../axiosAPI.ts';
 import {toast} from 'react-toastify';
+import type {IDish, IDishApi, IDishForm, IUpdateDish} from '../../../types';
 
 interface DishesSlice {
     dishes: IDish[];

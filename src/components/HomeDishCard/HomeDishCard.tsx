@@ -1,6 +1,7 @@
 import {Box, Typography} from '@mui/material';
 import HomeDishCardItem from './HomeDishCardItem/HomeDishCardItem.tsx';
 import * as React from 'react';
+import type {IDish} from '../../types';
 
 interface Props {
     dish: IDish[]

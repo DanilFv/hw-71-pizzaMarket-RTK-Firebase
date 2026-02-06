@@ -4,7 +4,10 @@ import {EMPTY_VALUES} from '../../Constants.ts';
 import {toast} from 'react-toastify';
 import {useAppDispatch, useAppSelector} from '../../app/hooks.ts';
 import {useNavigate} from 'react-router-dom';
-import {fetchAddDish, fetchEditDish} from '../../app/store/DishesSlice.ts';
+import {
+    fetchAddDish,
+    fetchEditDish
+} from '../../app/store/Dishes/DishesSlice.ts';
 import SaveIcon from '@mui/icons-material/Save';
 import EditDocumentIcon from '@mui/icons-material/EditDocument';
 import {

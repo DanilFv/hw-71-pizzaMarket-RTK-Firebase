@@ -1,4 +1,5 @@
 import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
+import type {ICartDish, IDish} from '../../../types';
 
 interface CartSlice {
     cart: ICartDish[];

@@ -3,7 +3,7 @@ import DishForm from '../../../../components/DishForm/DishForm.tsx';
 import {useEffect} from 'react';
 import {selectOneDish} from '../DishesSelectors.ts';
 import {useAppDispatch, useAppSelector} from '../../../../app/hooks.ts';
-import {fetchOneDish} from '../../../../app/store/DishesSlice.ts';
+import {fetchOneDish} from '../../../../app/store/Dishes/DishesSlice.ts';
 
 
 const EditDish = () => {
